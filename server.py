@@ -110,14 +110,14 @@ async def handler(websocket):
 
                     if all_done:
                         if all_done:
-                                                # 1. Compile the full data for every player in this game
+                                               
                                 final_reveal = []
                                 for ws in game_participants:
                                     player_data = PLAYERS[ws]
                                     prompts = player_data["prompts"] # The dict from get_random_prompts
                                     user_answer = player_data["response"]
 
-                                                    # Merge the user's answer into the blank prompt spot
+                                                   
                                     blank_key = prompts.get("blank")
                                     prompts[blank_key] = user_answer
 
@@ -126,7 +126,7 @@ async def handler(websocket):
                                         "full_set": prompts # Now contains 2 AI answers and 1 User answer
                                     })
 
-                                                # 2. Send the whole bundle to everyone
+                                                
                                 broadcast_payload = json.dumps({
                                     "type": "results",
                                     "data": final_reveal
@@ -134,7 +134,7 @@ async def handler(websocket):
 
                                 await asyncio.gather(*(ws.send(broadcast_payload) for ws in game_participants))
 
-                                                # 3. Optional: Reset the responses so they can play again
+                                                
                                 for ws in game_participants:
                                     PLAYERS[ws]["response"] = None
                     else:
